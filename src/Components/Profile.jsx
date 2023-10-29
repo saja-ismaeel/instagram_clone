@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Tabs from '@mui/material/Tabs';
@@ -32,7 +32,15 @@ import ExplorePic14 from '../assets/ExplorePics/explorePic14.webp';
 
 // My image
 import saleswomanImage from '../assets/StoriesAvatars/saleswoman.png';
+import Sidebar from './Sidebar';
+import axios from 'axios';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+const theme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 export default function ImageAvatars() {
   const [value, setValue] = useState(0);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -95,13 +103,45 @@ export default function ImageAvatars() {
     marginRight:'5px',
     marginLeft:'5px'
   };
+  const token = localStorage.getItem("token");
+  const id = localStorage.getItem("id");
+  const [myposts, setMyPosts] = useState([]);
+  const [users,setusers]=useState([])
+  const [myinfo,setMyInfo]=useState()
+ 
+  useEffect(() => {
+    axios
+      .request({
+        method: "get",
+        url: `http://16.170.173.197/posts/${id}`,
+        data: {
+          id: id,
+        },
+        headers: {
+          Authorization:`Bearer ${token}`,
+        },
+      })
+      .then((responses) => {
+        const posts = responses.data.posts;
+        setMyPosts(posts);
+      })
+      .catch((error) => {
+        console.error("Error deleting post:", error);
+      });
+  }, []);
 
+  const avatar=localStorage.getItem('avatar')
+  const bio=localStorage.getItem('bio')
+  const userName=localStorage.getItem('userName')
   return (
+
+    <ThemeProvider theme={theme}>
     <div style={containerStyle}>
+       <Sidebar/>
       <Box>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-          <img src={saleswomanImage} alt="My Photo" style={avatarStyle} />
-          <span style={headerStyle}>Saja.Ismaeel</span>
+          <img src={avatar} alt="My Photo" style={avatarStyle} />
+          <span style={headerStyle}> {userName}</span>
           <Button style={buttonStyle} variant="contained">
             Edit Profile
           </Button>
@@ -110,15 +150,19 @@ export default function ImageAvatars() {
           </Button>
           <SettingsIcon style={{ color: 'white', fontSize: '24px' }} />
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center',marginBottom: "34px",
+    marginLeft: "107px",
+    marginTop: "-29px" }}>
           <span style={{ color: 'white', fontSize: '18px', marginRight: '20px' }}>5 Posts</span>
           <span style={{ color: 'white', fontSize: '18px', marginRight: '20px' }}>371 Followers</span>
           <span style={{ color: 'white', fontSize: '18px' }}>1410 Following</span>
-        </div>
+        </div >
+       
         <span style={{ color: 'white', fontSize: '18px', marginBottom: '10px' }}>
-          The things You own end up owning you.
+        {bio}
         </span>
-        <Tabs style={{ color: '#1D1D1D' }} value={value} onChange={handleChange} aria-label="icon position tabs example">
+     
+        <Tabs style={{ color: '#1D1D1D',borderBottom:" 1px solid #1D1D1D" }} value={value} onChange={handleChange} aria-label="icon position tabs example">
           <Tab style={{ color: 'white' }} icon={<AppsIcon />} iconPosition="start" label="POSTS" />
           <Tab style={{ color: 'white' }} icon={<BookmarkBorderIcon />} iconPosition="start" label="REELS" />
           <Tab style={{ color: 'white' }} icon={<AssignmentIndIcon />} iconPosition="start" label="TAGGED" />
@@ -132,5 +176,6 @@ export default function ImageAvatars() {
         </ImageList>
       </Box>
     </div>
+   </ThemeProvider>
   );
 }

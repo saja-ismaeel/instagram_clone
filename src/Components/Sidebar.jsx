@@ -14,16 +14,21 @@ import ListItemText from "@mui/material/ListItemText";
 import InstagramLogo from "../assets/instagram-logo.png";
 import CreatePostModal from './CreatePostModal'; 
 import { Link } from "react-router-dom";
+
 //my img
 import saleswomanImage from '../assets/StoriesAvatars/saleswoman.png';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 function Sidebar() {
   const iconAndTextStyles = { color: "#FFFFFF" };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeListItem, setActiveListItem] = useState(null);
 
-  const handleCreatePost = ({ title, body, imageUrl }) => {
-    console.log('Creating a new post:', { title, body, imageUrl });
-  };
 
   const openModal = (item) => {
     setIsModalOpen(true);
@@ -36,6 +41,7 @@ function Sidebar() {
   };
 
   return (
+    <ThemeProvider theme={theme}>
     <div
       style={{
         width: "250px",
@@ -43,10 +49,9 @@ function Sidebar() {
         top: 0,
         left: 0,
         height: "100%",
-        backgroundColor: "black",
         display: "flex",
         flexDirection: "column",
-        borderRight: "1px solid #1d1d1d",
+        borderRight: "3px solid #1d1d1d",
         alignItems: "center",
       }}
     >
@@ -104,20 +109,18 @@ function Sidebar() {
             <ListItemText primary="Notifications" style={iconAndTextStyles} />
           </ListItem>
         </Link>
+        
         <ListItem button onClick={() => openModal("Create")}>
           <ListItemIcon style={iconAndTextStyles}>
             <AddCircleOutlineIcon />
           </ListItemIcon>
           <ListItemText primary="Create" style={iconAndTextStyles} />
         </ListItem>
-        {activeListItem === "Create" && (
-          <CreatePostModal
-            isOpen={isModalOpen}
-            onRequestClose={closeModal}
-            createPost={handleCreatePost}
-          />
+        
+          <CreatePostModal open={isModalOpen} handleClose={closeModal} /> 
           
-        )}
+        
+
         <Link to="/profile">
   <ListItem button>
     <ListItemIcon style={iconAndTextStyles}>
@@ -138,6 +141,7 @@ function Sidebar() {
     </ListItem>
   </Link>
     </div>
+   </ThemeProvider>
   );
 }
 

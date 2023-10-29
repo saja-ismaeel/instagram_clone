@@ -4,41 +4,37 @@ import Suggestion from "./Suggestion";
 import Posts from "./Posts";
 import { Grid } from "@mui/material";
 import Sidebar from "./Sidebar";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+const theme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 function Home() {
+  
   return (
-    // <div className="home">
-    
-    //   <div className="center-content">
-    //     <StoriesBar />
-    //   </div>
-    //   {/* <div className="right-content">
-    //     <Suggestion />
-    //   </div> */}
-    //   <div className="right-content">
-    //     <Posts />
-    //   </div>
-    // </div>
+<ThemeProvider theme={theme}>
     <div>
-<Grid container spacing={2}>
+      
+      <Grid container spacing={2}>
         <Grid item xs={2.5}>
-    
-            </Grid>
-            <Grid item xs={5}>
-                <StoriesBar/>
-                <br/>
-                <Posts/>
-                <br/>
-                <br/>
-                <br/>
-            </Grid>
-            <Grid item xs={4}>
-          
-              <Suggestion/>
-            </Grid>
-            </Grid>
-
+          <Sidebar/>
+        </Grid>
+        <Grid item xs={5}>
+          <StoriesBar />
+          <br />
+          <Posts />
+          <br />
+          <br />
+          <br />
+        </Grid>
+        <Grid item xs={4}>
+          <Suggestion />
+        </Grid>
+      </Grid>
     </div>
+    </ThemeProvider>
   );
 }
 

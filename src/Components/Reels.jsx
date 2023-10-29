@@ -1,5 +1,6 @@
 import React from 'react'
 import rocketImage from '../assets/rocket-launch.png';
+import Sidebar from './Sidebar';
 const containerStyle = {
   display: 'flex',
   flexDirection: 'column',
@@ -15,6 +16,7 @@ const imageStyle = {
 function Reels() {
   return (
     <div style={containerStyle}>
+       <Sidebar/>
       <h1>Search</h1>
       <img 
         src={rocketImage} alt="Rocket Launch" style={imageStyle} />

@@ -1,114 +1,124 @@
-import { Avatar } from "@mui/material";
 import React from "react";
-import messengar from '../assets/messengar-logo.png'
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Grid';
-import boy from "../assets/Avatars/boy.png";
-import nurse from '../assets/Avatars/nurse.png';
+import nurse from "../assets/Avatars/nurse.png";
 import cockman from "../assets/Avatars/cock-man.png";
 import man from "../assets/Avatars/man.png";
 import shopassistant from "../assets/Avatars/shop-assistant.png";
 import steward from "../assets/Avatars/steward.png";
 import { Link } from "react-router-dom";
-import EditNoteIcon from '@mui/icons-material/EditNote';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const account1 = [
-  {
-    name: "Saja.Ismaeel",
+const theme = createTheme({
+  palette: {
+    mode: "dark",
   },
-];
+});
+const account1 = {
+  name: "Saja.Ismaeel",
+};
+
+const divStyle = {
+  display: "flex",
+  alignItems: "center",
+  marginRight: "30px",
+  color: "white",
+};
+
+const pstyle = {
+  display: "inline",
+  fontWeight: "bold",
+  color: "white",
+  textAlign: "left",
+  margin: "2px",
+  marginLeft: "28px",
+};
+
+const maindivStyle = {
+  width: "345px",
+  position: "fixed",
+  right: 0,
+  height: "100%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  marginRight: " 1057px",
+  borderRight: "1px solid #1d1d1d",
+};
+
 
 const accounts = [
   {
     image: nurse,
     name: "user1",
-    followed: "Lorem ipsum dolor sit amet.",
+    messages: "Lorem ipsum dolor sit amet.",
     time: "•2m",
+    read: true,
+    stat:"•"
   },
   {
     image: cockman,
     name: "user2",
-    followed: "Lorem ipsum dolor sit amet.",
+    messages: "Lorem ipsum dolor sit amet.",
     time: "•15m",
+    read: true,
+    stat:"•"
   },
   {
     image: shopassistant,
     name: "user3",
-    followed: "Lorem ipsum dolor sit amet.",
+    messages: "Lorem ipsum dolor sit amet.",
     time: "•27m",
+    read: false,
+    stat:"•"
   },
   {
     image: steward,
     name: "user4",
-    followed: "Lorem ipsum dolor sit amet.",
+    messages: "Lorem ipsum dolor sit amet.",
     time: "•5h",
+    read: false,
+    stat:"•"
   },
   {
     image: man,
     name: "user5",
-    followed: "Lorem ipsum dolor sit amet.",
+    messages: "Lorem ipsum dolor sit amet.",
     time: "•1d",
+    read: true,
+    stat:"•"
   },
 ];
 
 export default function Messages() {
   return (
+  <ThemeProvider theme={theme}>
     <div
+    
       style={{
         borderBottom: "1px solid gray",
         flexDirection: "column",
       }}
     >
-      <div
-        style={{
-          width: "320px",
-          position: "fixed",
-          right: 0,
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginRight: "800px",
-          borderRight: "1px solid #1d1d1d",
-          alignItems: "center",
-        }}
-      >
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {account1.map((account, index) => (
-            <li
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <div
-                style={{
-                  marginRight: "30px",
-                  color: "white",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <p
-                  style={{
-                    display: "inline",
-                    fontWeight: "bold",
-                    color: "white",
-                    textAlign: "left",
-                    margin: "2px",
-                  }}
-                >
-                  {account.name} <KeyboardArrowDownIcon />
-                </p>
-                <EditNoteIcon style={{ marginLeft: "5px", color: "white" }} />
-              </div>
-            </li>
-          ))}
-        </ul>
+      <div style={maindivStyle}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            padding: "27px",
+          }}
+        >
+          <div style={divStyle}>
+            <p style={pstyle}>{account1.name}</p>
+            <div>
+              <KeyboardArrowDownIcon style={{ paddingTop: "5px", color: "white" }} />
+            </div>
+            <div>
+              <EditNoteIcon style={{ marginLeft: "125px", color: "white" }} />
+            </div>
+          </div>
+        </div>
 
         <div
           style={{
@@ -141,15 +151,16 @@ export default function Messages() {
             Request
           </Link>
         </div>
-        <ul style={{ listStyle: "none", padding: "10px", textAlign: "left" }}>
+        <div style={{ listStyle: "none", padding: "10px", textAlign: "left" }}>
           {accounts.map((account, index) => (
-            <li
+            <div
               key={index}
               style={{
                 display: "flex",
                 alignItems: "center",
                 marginBottom: "3px",
                 padding: "6px",
+                color:  "white" ,
               }}
             >
               <img
@@ -161,39 +172,58 @@ export default function Messages() {
                   borderRadius: "50%",
                 }}
               />
-              <div style={{ marginLeft: "10px", color: "white" }}>
+              <div style={{ marginLeft: "10px", color: "graye" }}>
                 <p
                   style={{
                     fontWeight: "bold",
                     textAlign: "left",
-                    margin: "2px",
+                 
+                    display:"inline",
                   }}
                 >
                   {account.name}
                 </p>
+                <div style={{ marginTop: "-8px" }}>
                 <p
                   style={{
                     display: "inline",
-                    color: "grey",
                     margin: "0",
+                    color: account.read ? "grey" : "white",
                   }}
                 >
-                  {account.followed}
+                  {account.messages}
                 </p>
+                
+                
                 <p
                   style={{
                     display: "inline",
-                    color: "grey",
                     margin: "0",
+                    paddingLeft: "18px",
+                    color: account.read ? "grey" : "white",
                   }}
                 >
                   {account.time}
                 </p>
+                <p
+                  style={{
+                    display: "inline",
+                    margin: "0",
+                    fontSize: "30px",
+
+                    marginLeft: "2px",
+                                        color: account.read ? "black" : "#1976d2",
+                  }}
+                >
+                  {account.stat}
+                </p>
+                </div>
               </div>
-            </li>
- ))}
-        </ul>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
+   </ThemeProvider>
   );
 }
